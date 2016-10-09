@@ -18,15 +18,8 @@
 
 <resources>
 
-    <string name="app_name">Baby</string>
+    <dimen name="action_margin">24dp</dimen>
 
-    <string name="action_add_measurements">Tilføj målinger</string>
-
-    <string name="navigation_charts">Grafer</string>
-    <string name="navigation_close">Luk navigation</string>
-    <string name="navigation_measurements">Målinger</string>
-    <string name="navigation_open">Åbn navigation</string>
-    <string name="navigation_overview">Overblik</string>
-    <string name="navigation_settings">Indstillinger</string>
+    <dimen name="activity_horizontal_margin">64dp</dimen>
 
 </resources>
