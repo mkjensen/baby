@@ -22,8 +22,11 @@
 
     <string name="action_add_measurements">Tilføj målinger</string>
 
-    <string name="navigation_charts">Grafer</string>
+    <string name="chart_weight">Vægt</string>
+    <string name="chart_length">Længde</string>
+
     <string name="navigation_close">Luk navigation</string>
+    <string name="navigation_growth_chart">Vækstgraf</string>
     <string name="navigation_measurements">Målinger</string>
     <string name="navigation_open">Åbn navigation</string>
     <string name="navigation_overview">Overblik</string>

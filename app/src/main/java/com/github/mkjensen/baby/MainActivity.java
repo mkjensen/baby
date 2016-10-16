@@ -20,11 +20,11 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -44,13 +44,15 @@ public class MainActivity extends AppCompatActivity
 
   private ActionBarDrawerToggle drawerToggle;
 
+  private FloatingActionButton addMeasurementsButton;
+
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     initDrawer();
+    initAddMeasurementsButton();
     initNavigation(savedInstanceState);
-    initFloatingActionButton();
   }
 
   private void initDrawer() {
@@ -66,6 +68,16 @@ public class MainActivity extends AppCompatActivity
     drawer.addDrawerListener(drawerToggle);
   }
 
+  private void initAddMeasurementsButton() {
+    addMeasurementsButton = (FloatingActionButton) findViewById(R.id.action_add_measurements);
+    addMeasurementsButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Snackbar.make(view, getString(R.string.action_add_measurements), Snackbar.LENGTH_LONG).show();
+      }
+    });
+  }
+
   private void initNavigation(@Nullable Bundle savedInstanceState) {
     NavigationView navigation = (NavigationView) findViewById(R.id.navigation);
     if (savedInstanceState == null) {
@@ -74,16 +86,6 @@ public class MainActivity extends AppCompatActivity
       onNavigationItemSelected(item);
     }
     navigation.setNavigationItemSelectedListener(this);
-  }
-
-  private void initFloatingActionButton() {
-    FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.action_add_measurements);
-    addButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Snackbar.make(view, getString(R.string.action_add_measurements), Snackbar.LENGTH_LONG).show();
-      }
-    });
   }
 
   @Override
@@ -114,12 +116,28 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-    activateDummyFragment(item.getTitle().toString());
+    switch (item.getItemId()) {
+      case R.id.navigation_growth_chart:
+        activateFragment(new GrowthChartFragment(), R.string.navigation_growth_chart);
+        break;
+      default:
+        activateDummyFragment(item.getTitle().toString());
+        break;
+    }
     drawer.closeDrawer(GravityCompat.START);
     return true;
   }
 
+  private void activateFragment(Fragment fragment, @StringRes int titleRes) {
+    addMeasurementsButton.setVisibility(View.GONE);
+    setTitle(getString(titleRes));
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+  }
+
   private void activateDummyFragment(String title) {
+    addMeasurementsButton.setVisibility(View.VISIBLE);
+    setTitle(title);
     Bundle args = new Bundle();
     args.putString(DummyFragment.TITLE, title);
     Fragment fragment = new DummyFragment();
@@ -139,10 +157,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+      TextView titleText = new TextView(getActivity());
       String title = getArguments().getString(TITLE);
-      FragmentActivity activity = getActivity();
-      activity.setTitle(title);
-      TextView titleText = new TextView(activity);
       titleText.setText(title);
       return titleText;
     }

@@ -34,14 +34,14 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/navigation_charts"
-            android:icon="@drawable/ic_show_chart_black_24dp"
-            android:title="@string/navigation_charts" />
-
-        <item
             android:id="@+id/navigation_measurements"
             android:icon="@drawable/ic_assessment_black_24dp"
             android:title="@string/navigation_measurements" />
+
+        <item
+            android:id="@+id/navigation_growth_chart"
+            android:icon="@drawable/ic_show_chart_black_24dp"
+            android:title="@string/navigation_growth_chart" />
 
     </group>
 
